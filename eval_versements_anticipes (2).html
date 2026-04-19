@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Évaluation formative — Versements anticipés</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0f172a;
+  --navy-light: #1e293b;
+  --slate: #334155;
+  --slate-mid: #64748b;
+  --slate-light: #94a3b8;
+  --blue: #2563eb;
+  --blue-light: #3b82f6;
+  --blue-pale: #dbeafe;
+  --blue-bg: #eff6ff;
+  --green: #16a34a;
+  --green-pale: #dcfce7;
+  --red: #dc2626;
+  --red-pale: #fee2e2;
+  --orange: #ea580c;
+  --orange-pale: #fff7ed;
+  --white: #ffffff;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--gray-50);
+  color: var(--navy);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.app-header {
+  background: var(--navy);
+  color: var(--white);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.app-header h1 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 13px;
+}
+.timer {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+}
+.user-info {
+  color: var(--slate-light);
+  font-size: 12px;
+}
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+.progress-container {
+  background: var(--navy-light);
+  padding: 0;
+  height: 4px;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--blue-light));
+  transition: width 0.5s ease;
+  width: 0%;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ============================================================
+   MAIN CONTAINER
+   ============================================================ */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+/* ============================================================
+   SCREENS
+   ============================================================ */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ============================================================
+   LOGIN SCREEN
+   ============================================================ */
+.login-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 48px 40px;
+  max-width: 460px;
+  margin: 60px auto;
+  text-align: center;
+}
+.login-card .icon-badge {
+  width: 64px;
+  height: 64px;
+  background: var(--blue-pale);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 28px;
+}
+.login-card h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--navy);
+}
+.login-card .subtitle {
+  color: var(--slate-mid);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+.login-card input[type="email"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 15px;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.login-card input[type="email"]:focus {
+  border-color: var(--blue);
+}
+.login-card .login-error {
+  color: var(--red);
+  font-size: 13px;
+  margin-top: 8px;
+  min-height: 20px;
+}
+.login-card .rules {
+  text-align: left;
+  background: var(--gray-50);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1.7;
+}
+.login-card .rules strong {
+  color: var(--navy);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--blue);
+  color: var(--white);
+}
+.btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+  box-shadow: var(--shadow-md);
+}
+.btn-secondary {
+  background: var(--gray-100);
+  color: var(--slate);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--gray-200);
+}
+.btn-success {
+  background: var(--green);
+  color: var(--white);
+}
+.btn-full { width: 100%; margin-top: 16px; }
+
+/* ============================================================
+   SECTION HEADER (Quiz / Exercice)
+   ============================================================ */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--blue-pale);
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section-badge.exercice {
+  background: var(--orange-pale);
+  color: var(--orange);
+}
+.question-counter {
+  color: var(--slate-mid);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   QUESTION CARD
+   ============================================================ */
+.question-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 32px;
+  margin-bottom: 20px;
+  border: 1px solid var(--gray-200);
+}
+.question-card .q-points {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--slate-mid);
+  margin-bottom: 12px;
+}
+.question-card .q-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.question-card .q-context {
+  background: var(--gray-50);
+  border-left: 3px solid var(--blue);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: var(--slate);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  line-height: 1.6;
+}
+
+/* QCM Options */
+.qcm-options { display: flex; flex-direction: column; gap: 10px; }
+.qcm-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.qcm-option:hover:not(.locked) {
+  border-color: var(--blue-light);
+  background: var(--blue-bg);
+}
+.qcm-option.selected {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+}
+.qcm-option.locked { cursor: default; }
+.qcm-option.correct {
+  border-color: var(--green);
+  background: var(--green-pale);
+}
+.qcm-option.incorrect {
+  border-color: var(--red);
+  background: var(--red-pale);
+}
+.qcm-option .letter {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--slate);
+}
+.qcm-option.selected .letter {
+  background: var(--blue);
+  color: var(--white);
+}
+.qcm-option.correct .letter {
+  background: var(--green);
+  color: var(--white);
+}
+.qcm-option.incorrect .letter {
+  background: var(--red);
+  color: var(--white);
+}
+
+/* Numeric input */
+.numeric-input-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.numeric-input-group input {
+  padding: 12px 16px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  width: 200px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.numeric-input-group input:focus {
+  border-color: var(--blue);
+}
+.numeric-input-group .unit {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--slate-mid);
+}
+
+/* Accounting entry */
+.entry-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.entry-table th {
+  background: var(--navy);
+  color: var(--white);
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+}
+.entry-table th:nth-child(3),
+.entry-table th:nth-child(4) { text-align: right; }
+.entry-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--gray-200);
+}
+.entry-table input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--gray-300);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.entry-table input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
+}
+.entry-table input.account-input {
+  font-family: var(--font-mono);
+  width: 90px;
+}
+.entry-table input.amount-input {
+  text-align: right;
+  width: 120px;
+}
+.entry-table .indent { padding-left: 30px; }
+.entry-hint {
+  font-size: 12px;
+  color: var(--slate-mid);
+  margin-top: 6px;
+}
+
+/* Impact table */
+.impact-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  align-items: center;
+}
+.impact-grid label {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--slate);
+}
+.impact-grid input {
+  padding: 10px 14px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  width: 160px;
+  outline: none;
+  text-align: right;
+}
+.impact-grid input:focus {
+  border-color: var(--blue);
+}
+
+/* Feedback banner */
+.feedback {
+  display: none;
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 16px;
+  align-items: center;
+  gap: 10px;
+}
+.feedback.show { display: flex; }
+.feedback.correct {
+  background: var(--green-pale);
+  color: var(--green);
+  border: 1px solid #bbf7d0;
+}
+.feedback.incorrect {
+  background: var(--red-pale);
+  color: var(--red);
+  border: 1px solid #fecaca;
+}
+
+/* Action row */
+.action-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* ============================================================
+   TRANSITION SCREEN
+   ============================================================ */
+.transition-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 520px;
+  margin: 60px auto;
+}
+.transition-card h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.transition-card p {
+  color: var(--slate-mid);
+  font-size: 15px;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   SUMMARY SCREEN
+   ============================================================ */
+.summary-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 40px;
+  max-width: 560px;
+  margin: 40px auto;
+}
+.summary-card h2 {
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.summary-card .summary-sub {
+  text-align: center;
+  color: var(--slate-mid);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+.score-display {
+  text-align: center;
+  padding: 28px;
+  background: var(--gray-50);
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+}
+.score-display .score-value {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--navy);
+  font-family: var(--font-mono);
+}
+.score-display .score-max {
+  font-size: 18px;
+  color: var(--slate-mid);
+  font-weight: 600;
+}
+.score-display .score-pct {
+  font-size: 15px;
+  color: var(--blue);
+  font-weight: 700;
+  margin-top: 4px;
+}
+.score-breakdown {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.score-box {
+  flex: 1;
+  padding: 16px;
+  background: var(--gray-50);
+  border-radius: var(--radius);
+  text-align: center;
+}
+.score-box .label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--slate-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.score-box .value {
+  font-size: 22px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--navy);
+}
+.summary-time {
+  text-align: center;
+  font-size: 14px;
+  color: var(--slate-mid);
+}
+
+/* ============================================================
+   ALREADY DONE SCREEN
+   ============================================================ */
+.done-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 460px;
+  margin: 80px auto;
+}
+.done-card .done-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+.done-card h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.done-card p {
+  color: var(--slate-mid);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gray-300);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 600px) {
+  .container { padding: 20px 14px 60px; }
+  .question-card { padding: 24px 18px; }
+  .login-card { padding: 32px 24px; margin: 30px 16px; }
+  .app-header h1 { font-size: 13px; }
+  .entry-table input.amount-input { width: 90px; font-size: 12px; }
+  .entry-table input.account-input { width: 70px; font-size: 12px; }
+  .score-breakdown { flex-direction: column; }
+  .impact-grid { grid-template-columns: 1fr; }
+  .impact-grid input { width: 100%; }
+  .numeric-input-group input { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="app-header" id="appHeader" style="display:none;">
+  <h1>Évaluation — Versements anticipés d'impôts</h1>
+  <div class="header-right">
+    <span class="user-info" id="headerEmail"></span>
+    <div class="timer" id="timer">00:00:00</div>
+  </div>
+</header>
+<div class="progress-container" id="progressContainer" style="display:none;">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="container">
+
+  <!-- ============================================================
+       SCREEN: LOGIN
+       ============================================================ -->
+  <div class="screen active" id="screenLogin">
+    <div class="login-card">
+      <div class="icon-badge">📝</div>
+      <h2>Évaluation formative</h2>
+      <p class="subtitle">Versements anticipés d'impôts</p>
+      <div class="rules">
+        <strong>Consignes :</strong><br>
+        — Cette évaluation comporte un <strong>quiz théorique</strong> (10 questions) et <strong>deux exercices pratiques</strong>.<br>
+        — Quiz : une seule tentative par question.<br>
+        — Exercices : plusieurs tentatives possibles par question.<br>
+        — Vous ne pouvez réaliser cette évaluation <strong>qu'une seule fois</strong>.<br>
+        — Un chronomètre enregistre votre temps total.
+      </div>
+      <input type="email" id="emailInput" placeholder="prenom.nom@eleve.istlm.be" autocomplete="email">
+      <div class="login-error" id="loginError"></div>
+      <button class="btn btn-primary btn-full" id="btnLogin" onclick="handleLogin()">Commencer l'évaluation</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: ALREADY COMPLETED
+       ============================================================ -->
+  <div class="screen" id="screenDone">
+    <div class="done-card">
+      <div class="done-icon">🔒</div>
+      <h2>Évaluation déjà réalisée</h2>
+      <p>Tu as déjà réalisé cette évaluation formative. Si tu penses qu'il y a une erreur, contacte ton professeur.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: QUIZ
+       ============================================================ -->
+  <div class="screen" id="screenQuiz">
+    <div class="section-header">
+      <span class="section-badge">📖 Quiz théorique</span>
+      <span class="question-counter" id="quizCounter"></span>
+    </div>
+    <div id="quizContent"></div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: TRANSITION (Quiz → Exercice)
+       ============================================================ -->
+  <div class="screen" id="screenTransition">
+    <div class="transition-card">
+      <h2>Quiz terminé !</h2>
+      <p>Tu as terminé la partie théorique. Place maintenant aux exercices pratiques sur les versements anticipés.<br>
+      Tu disposes de <strong>plusieurs tentatives</strong> pour chaque question. Tu peux aussi passer à la question suivante si nécessaire.</p>
+      <button class="btn btn-primary" onclick="startExercise()">Passer aux exercices →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: EXERCISE
+       ============================================================ -->
+  <div class="screen" id="screenExercise">
+    <div class="section-header">
+      <span class="section-badge exercice">🔧 Exercices pratiques</span>
+      <span class="question-counter" id="exCounter"></span>
+    </div>
+    <div id="exContent"></div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: SUMMARY
+       ============================================================ -->
+  <div class="screen" id="screenSummary">
+    <div class="summary-card">
+      <h2>Évaluation terminée</h2>
+      <p class="summary-sub">Tes résultats ont été enregistrés.</p>
+      <div class="score-display">
+        <div class="score-value" id="totalScore">0</div>
+        <div class="score-max" id="totalMax">/ 40</div>
+        <div class="score-pct" id="totalPct"></div>
+      </div>
+      <div class="score-breakdown">
+        <div class="score-box">
+          <div class="label">Quiz</div>
+          <div class="value" id="quizScore">0/10</div>
+        </div>
+        <div class="score-box">
+          <div class="label">Exercice</div>
+          <div class="value" id="exScore">0/30</div>
+        </div>
+      </div>
+      <div class="summary-time">Temps total : <strong id="totalTime">00:00:00</strong></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// CONFIGURATION
+// ============================================================
+const CONFIG = {
+  // ⚠️ REMPLACER PAR L'URL DU GOOGLE APPS SCRIPT DÉPLOYÉ
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzff9KEtrF9aH2ajzRvpPmePXDjOzLeOjrqpxJRO5uSKsfAMlY24A39eWO2tXBvO-eu/exec',
+  APP_NAME: 'Versements Anticipés',
+  NB_QUIZ: 10,
+  NB_EXERCICES: 9,
+  POINTS_MAX: 40
+};
+
+// ============================================================
+// STATE
+// ============================================================
+const STATE = {
+  email: '',
+  classe: '',
+  session: '',
+  timerInterval: null,
+  startTime: null,
+  elapsed: 0,
+  currentQuiz: 0,
+  currentEx: 0,
+  quizPoints: 0,
+  exPoints: 0,
+  quizAnswered: Array(10).fill(false),
+  exAnswered: Array(9).fill(false),
+  exAttempts: Array(9).fill(0),
+  questionStartTime: 0
+};
+
+// ============================================================
+// QUIZ DATA — 10 questions théoriques
+// ============================================================
+const QUIZ = [
+  {
+    id: 'Q1',
+    text: "Quel est l'objectif principal des versements anticipés pour une entreprise (société) ?",
+    options: [
+      "Obtenir un crédit d'impôt automatique de l'État.",
+      "Anticiper le paiement de l'impôt annuel et éviter une majoration pour insuffisance de VA.",
+      "Bénéficier d'une exonération fiscale totale sur le bénéfice.",
+      "Reporter le paiement de l'impôt à l'année suivante."
+    ],
+    correct: 1,
+    points: 1
+  },
+  {
+    id: 'Q2',
+    text: "Les versements anticipés sont-ils obligatoires pour une société ?",
+    options: [
+      "Oui, ils sont strictement obligatoires sous peine de sanctions pénales.",
+      "Non, mais leur absence ou leur insuffisance entraîne une majoration d'impôts.",
+      "Oui, toute société doit verser exactement 25 % de son résultat estimé.",
+      "Non, ils sont totalement optionnels et sans aucune conséquence fiscale."
+    ],
+    correct: 1,
+    points: 1
+  },
+  {
+    id: 'Q3',
+    text: "Combien de périodes de versement anticipé sont prévues dans l'année civile pour les sociétés ?",
+    options: [
+      "2 périodes semestrielles.",
+      "4 périodes trimestrielles.",
+      "6 périodes bimestrielles.",
+      "12 périodes mensuelles."
+    ],
+    correct: 1,
+    points: 1
+  },
+  {
+    id: 'Q4',
+    text: "Quelle est la date LIMITE pour effectuer le VA3 (3\u1d49 période) ?",
+    options: [
+      "Le 10 avril.",
+      "Le 10 juillet.",
+      "Le 10 octobre.",
+      "Le 20 décembre."
+    ],
+    correct: 2,
+    points: 1
+  },
+  {
+    id: 'Q5',
+    text: "Que se passe-t-il si une société n'effectue AUCUN versement anticipé alors qu'elle réalise un bénéfice imposable ?",
+    options: [
+      "Aucune conséquence financière particulière.",
+      "Le fisc calcule une majoration d'impôt qui s'ajoute à l'impôt dû, augmentant la somme à payer.",
+      "La société perd automatiquement le droit de déduire ses charges de l'exercice.",
+      "L'impôt est automatiquement doublé par l'administration fiscale."
+    ],
+    correct: 1,
+    points: 1
+  },
+  {
+    id: 'Q6',
+    text: "Dans le PCMN, quel compte est DÉBITÉ lors de l'enregistrement d'un versement anticipé d'impôt ?",
+    options: [
+      "4120 — Impôts et précomptes estimés à récupérer (actif).",
+      "4500 — Dettes fiscales estimées (passif).",
+      "6700 — Impôts et précomptes dus ou versés (charge).",
+      "6711 — Excédent de versement d'impôts (charge négative)."
+    ],
+    correct: 2,
+    points: 1
+  },
+  {
+    id: 'Q7',
+    text: "En fin d'exercice, l'impôt estimé s'élève à 25 000 € mais l'entreprise n'a versé que 20 000 € en VA. Quelle régularisation comptable est nécessaire ?",
+    options: [
+      "Aucune régularisation n'est nécessaire, on attendra l'AER.",
+      "Il faut AUGMENTER les charges d'impôt de 5 000 € (création d'une dette fiscale estimée au passif).",
+      "Il faut DIMINUER les charges d'impôt de 5 000 € (création d'une créance à l'actif).",
+      "Il faut annuler toutes les écritures de VA et recommencer le calcul."
+    ],
+    correct: 1,
+    points: 1
+  },
+  {
+    id: 'Q8',
+    text: "En fin d'exercice, l'impôt estimé s'élève à 10 000 € mais l'entreprise a versé 15 000 € en VA. Quelle écriture passe-t-on pour régulariser l'excédent de 5 000 € ?",
+    options: [
+      "Débit 6702 Charges fiscales estimées / Crédit 4500 Dettes fiscales estimées.",
+      "Débit 550 Banque / Crédit 6700 Impôts et précomptes dus ou versés.",
+      "Débit 4120 Impôts à récupérer / Crédit 6701 Excédent de versement d'impôts.",
+      "Aucune écriture n'est nécessaire, l'excédent sera automatiquement remboursé."
+    ],
+    correct: 2,
+    points: 1
+  },
+  {
+    id: 'Q9',
+    text: "Quel est le taux de majoration globale appliqué sur l'impôt dû des sociétés pour l'année de revenus 2026 ?",
+    options: [
+      "2,75 %.",
+      "6,75 %.",
+      "10,50 %.",
+      "15,00 %."
+    ],
+    correct: 1,
+    points: 1
+  },
+  {
+    id: 'Q10',
+    text: "Pour les sociétés, plus un versement anticipé est effectué TÔT dans l'année, plus :",
+    options: [
+      "le taux de réduction de majoration qui lui est associé est ÉLEVÉ (ex. : 9 % pour le VA1).",
+      "le taux de réduction de majoration qui lui est associé est FAIBLE.",
+      "le montant versé doit être important (minimum 25 % de l'impôt estimé).",
+      "il est pénalisé par le fisc via une taxe supplémentaire."
+    ],
+    correct: 0,
+    points: 1
+  }
+];
+
+// ============================================================
+// EXERCISE DATA
+// ============================================================
+const CONTEXT_EX1 = `<strong>Exercice 1 — Entreprise « Moulin »</strong><br>
+Pour l'année N, l'entreprise « Moulin » a effectué les 4 versements anticipés suivants :<br>
+• <strong>VA1</strong> (01/02/N) : 6 250,00 €<br>
+• <strong>VA2</strong> (30/04/N) : 4 375,00 €<br>
+• <strong>VA3</strong> (01/10/N) : 1 750,00 €<br>
+• <strong>VA4</strong> (19/12/N) : 6 555,00 €`;
+
+const CONTEXT_EX2 = `<strong>Exercice 2 — Calcul de la majoration</strong><br>
+L'impôt définitif de l'entreprise « Moulin » pour l'année 2025 s'élève à <strong>32 850,00 €</strong>.<br>
+Versements anticipés effectués durant 2025 :<br>
+• <strong>VA1</strong> (05/01/2025) : 5 550,00 €<br>
+• <strong>VA2</strong> (01/05/2025) : 8 350,00 €<br>
+• <strong>VA3</strong> (01/08/2025) : 2 500,00 €<br>
+• <strong>VA4</strong> (01/11/2025) : 10 000,00 €<br><br>
+<strong>Taux applicables (revenus 2026) :</strong> majoration globale = 6,75 % ; VA1 = 9 %, VA2 = 7,5 %, VA3 = 6 %, VA4 = 4,5 %.`;
+
+const EXERCISES = [
+  {
+    id: 'EX1.1',
+    context: CONTEXT_EX1,
+    partie: 'Exercice 1 — Total des VA versés',
+    text: "Calculez le montant total des 4 versements anticipés effectués durant l'année N.",
+    type: 'numeric',
+    answer: 18930,
+    tolerance: 0.01,
+    unit: '\u20ac',
+    points: 2
+  },
+  {
+    id: 'EX1.2',
+    context: CONTEXT_EX1,
+    partie: 'Exercice 1 — Écriture du VA1',
+    text: "Enregistrez le premier versement anticipé (VA1 du 01/02/N, montant : 6 250,00 €). Sélectionnez le journal approprié et complétez l'écriture. Utilisez le compte 5500 pour la banque.",
+    type: 'entry',
+    journal: 'JF',
+    expectedLines: [
+      { account: '6700', debit: 6250, credit: 0 },
+      { account: '5500', debit: 0, credit: 6250 }
+    ],
+    points: 4
+  },
+  {
+    id: 'EX1.3',
+    context: CONTEXT_EX1,
+    partie: "Exercice 1 — Ajustement Option 1 (31/12/N)",
+    text: "<strong>Option 1 :</strong> L'imp\u00f4t estim\u00e9 en fin d'ann\u00e9e s'\u00e9l\u00e8ve \u00e0 <strong>20 000,00 \u20ac</strong>. S\u00e9lectionnez le journal appropri\u00e9 et enregistrez l'\u00e9criture d'ajustement de fin d'ann\u00e9e.",
+    type: 'entry',
+    journal: 'JOD',
+    expectedLines: [
+      { account: '6702', debit: 1070, credit: 0 },
+      { account: '4500', debit: 0, credit: 1070 }
+    ],
+    points: 4
+  },
+  {
+    id: 'EX1.4',
+    context: CONTEXT_EX1,
+    partie: "Exercice 1 — Ajustement Option 2 (31/12/N)",
+    text: "<strong>Option 2 :</strong> L'imp\u00f4t estim\u00e9 en fin d'ann\u00e9e s'\u00e9l\u00e8ve \u00e0 <strong>15 000,00 \u20ac</strong>. S\u00e9lectionnez le journal appropri\u00e9 et enregistrez l'\u00e9criture d'ajustement de fin d'ann\u00e9e.",
+    type: 'entry',
+    journal: 'JOD',
+    expectedLines: [
+      { account: '4120', debit: 3930, credit: 0 },
+      { account: '6701', debit: 0, credit: 3930 }
+    ],
+    points: 5
+  },
+  {
+    id: 'EX2.1',
+    context: CONTEXT_EX2,
+    partie: "Exercice 2 — Majoration d'imp\u00f4t",
+    text: "Calculez le montant de la <strong>majoration d'imp\u00f4t</strong> due.",
+    type: 'numeric',
+    answer: 2261.72,
+    tolerance: 0.10,
+    unit: '\u20ac',
+    points: 3
+  },
+  {
+    id: 'EX2.2',
+    context: CONTEXT_EX2,
+    partie: "Exercice 2 — Total des r\u00e9ductions",
+    text: "Calculez le <strong>total des r\u00e9ductions de majoration</strong> obtenues gr\u00e2ce aux 4 versements anticip\u00e9s.",
+    type: 'numeric',
+    answer: 1725.75,
+    tolerance: 0.10,
+    unit: '\u20ac',
+    points: 3
+  },
+  {
+    id: 'EX2.3',
+    context: CONTEXT_EX2,
+    partie: "Exercice 2 — Suppl\u00e9ment d'imp\u00f4t",
+    text: "Calculez le montant du <strong>suppl\u00e9ment d'imp\u00f4t</strong> d\u00fb \u00e0 l'insuffisance des versements anticip\u00e9s.",
+    type: 'numeric',
+    answer: 535.97,
+    tolerance: 0.10,
+    unit: '\u20ac',
+    points: 3
+  },
+  {
+    id: 'EX2.4',
+    context: CONTEXT_EX2,
+    partie: "Exercice 2 — Imp\u00f4t total \u00e0 payer",
+    text: "Quel est le <strong>montant total d'imp\u00f4t \u00e0 payer</strong> par l'entreprise ?",
+    type: 'numeric',
+    answer: 33385.97,
+    tolerance: 0.10,
+    unit: '\u20ac',
+    points: 3
+  },
+  {
+    id: 'EX2.5',
+    context: CONTEXT_EX2,
+    partie: "Exercice 2 — Solde d'imp\u00f4t restant \u00e0 payer",
+    text: "Quel est le <strong>solde d'imp\u00f4t restant \u00e0 payer</strong>, en tenant compte des versements anticip\u00e9s d\u00e9j\u00e0 effectu\u00e9s ?",
+    type: 'numeric',
+    answer: 6985.97,
+    tolerance: 0.10,
+    unit: '\u20ac',
+    points: 3
+  }
+];
+
+// ============================================================
+// UTILITY FUNCTIONS
+// ============================================================
+function parseAmount(str) {
+  if (!str || str.trim() === '') return NaN;
+  return parseFloat(str.replace(/\s/g, '').replace(',', '.'));
+}
+
+function formatTime(seconds) {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function updateProgress() {
+  const total = CONFIG.NB_QUIZ + CONFIG.NB_EXERCICES;
+  const done = STATE.quizAnswered.filter(Boolean).length + STATE.exAnswered.filter(Boolean).length;
+  const pct = (done / total) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+// ============================================================
+// JSONP
+// ============================================================
+function jsonp(params) {
+  return new Promise((resolve, reject) => {
+    const cbName = 'cb_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+    window[cbName] = function(data) {
+      resolve(data);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    };
+    const qs = Object.entries(params).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+    const script = document.createElement('script');
+    script.src = `${CONFIG.SCRIPT_URL}?callback=${cbName}&${qs}`;
+    script.onerror = () => {
+      reject(new Error('Erreur réseau'));
+      delete window[cbName];
+    };
+    document.body.appendChild(script);
+  });
+}
+
+// ============================================================
+// POST (no-cors)
+// ============================================================
+function postData(payload) {
+  return fetch(CONFIG.SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(payload)
+  });
+}
+
+// ============================================================
+// TIMER
+// ============================================================
+function startTimer() {
+  STATE.startTime = Date.now();
+  STATE.timerInterval = setInterval(() => {
+    STATE.elapsed = Math.floor((Date.now() - STATE.startTime) / 1000);
+    document.getElementById('timer').textContent = formatTime(STATE.elapsed);
+  }, 1000);
+}
+function stopTimer() {
+  clearInterval(STATE.timerInterval);
+}
+
+// ============================================================
+// LOGIN FLOW
+// ============================================================
+async function handleLogin() {
+  const email = document.getElementById('emailInput').value.trim().toLowerCase();
+  const errorEl = document.getElementById('loginError');
+  const btn = document.getElementById('btnLogin');
+
+  errorEl.textContent = '';
+
+  // Validate email format
+  if (!email) { errorEl.textContent = 'Veuillez entrer votre adresse email.'; return; }
+  if (!email.endsWith('@eleve.istlm.be') && !email.endsWith('@istlm.org')) {
+    errorEl.textContent = 'Adresse non autorisée. Utilisez votre email @eleve.istlm.be ou @istlm.org.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Vérification…';
+
+  try {
+    // Step 1: check_email
+    const emailResult = await jsonp({ action: 'check_email', email: email });
+    if (!emailResult.found) {
+      errorEl.textContent = "Cette adresse email n'est pas enregistrée. Contacte ton professeur.";
+      btn.disabled = false;
+      btn.textContent = "Commencer l'évaluation";
+      return;
+    }
+
+    STATE.email = email;
+    STATE.classe = emailResult.classe;
+
+    // Step 2: check_access
+    const accessResult = await jsonp({ action: 'check_access', email: email, app: CONFIG.APP_NAME });
+    if (accessResult.status === 'completed') {
+      showScreen('screenDone');
+      return;
+    }
+
+    // Step 3: start_eval
+    await jsonp({ action: 'start_eval', email: email, app: CONFIG.APP_NAME });
+
+    // Step 4: register app
+    postData({
+      action: 'register_app',
+      application: CONFIG.APP_NAME,
+      nb_quiz: CONFIG.NB_QUIZ,
+      nb_exercices: CONFIG.NB_EXERCICES,
+      points_max: CONFIG.POINTS_MAX
+    });
+
+    // Start session
+    STATE.session = new Date().toISOString();
+    document.getElementById('appHeader').style.display = 'flex';
+    document.getElementById('progressContainer').style.display = 'block';
+    document.getElementById('headerEmail').textContent = email;
+    startTimer();
+
+    // Show quiz
+    STATE.currentQuiz = 0;
+    renderQuiz();
+    showScreen('screenQuiz');
+
+  } catch (err) {
+    errorEl.textContent = 'Erreur de connexion. Vérifie ta connexion internet et réessaie.';
+    btn.disabled = false;
+    btn.textContent = "Commencer l'évaluation";
+  }
+}
+
+// Allow Enter key on email input
+document.getElementById('emailInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') handleLogin();
+});
+
+// ============================================================
+// SHUFFLE QUIZ OPTIONS — Randomise l'ordre des options pour chaque question
+// (appelé une seule fois au chargement de la page, donc chaque élève voit
+// un ordre différent mais stable pendant toute sa session)
+// ============================================================
+function shuffleOptions(arr, correctIndex) {
+  const correctText = arr[correctIndex];
+  const shuffled = arr.slice();
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return { options: shuffled, correct: shuffled.indexOf(correctText) };
+}
+
+QUIZ.forEach(q => {
+  const shuffled = shuffleOptions(q.options, q.correct);
+  q.options = shuffled.options;
+  q.correct = shuffled.correct;
+});
+
+EXERCISES.forEach(ex => {
+  if (ex.type === 'qcm' && Array.isArray(ex.options) && ex.options.length > 1) {
+    const shuffled = shuffleOptions(ex.options, ex.correct);
+    ex.options = shuffled.options;
+    ex.correct = shuffled.correct;
+  }
+});
+
+// ============================================================
+// QUIZ RENDERING
+// ============================================================
+function renderQuiz() {
+  const q = QUIZ[STATE.currentQuiz];
+  const container = document.getElementById('quizContent');
+  document.getElementById('quizCounter').textContent = `Question ${STATE.currentQuiz + 1} / ${QUIZ.length}`;
+  STATE.questionStartTime = Date.now();
+
+  const letters = ['A', 'B', 'C', 'D'];
+  let optionsHTML = q.options.map((opt, i) => `
+    <div class="qcm-option" data-index="${i}" onclick="selectQuizOption(${i})">
+      <span class="letter">${letters[i]}</span>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+
+  container.innerHTML = `
+    <div class="question-card">
+      <div class="q-points">${q.points} point${q.points > 1 ? 's' : ''}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="qcm-options" id="quizOptions">
+        ${optionsHTML}
+      </div>
+      <div class="feedback" id="quizFeedback"></div>
+      <div class="action-row">
+        <button class="btn btn-primary" id="btnQuizSubmit" onclick="submitQuiz()" disabled>Valider</button>
+        <button class="btn btn-secondary" id="btnQuizNext" onclick="nextQuiz()" style="display:none;">Suivant →</button>
+      </div>
+    </div>
+  `;
+}
+
+let selectedQuizOption = -1;
+
+function selectQuizOption(index) {
+  if (STATE.quizAnswered[STATE.currentQuiz]) return;
+  selectedQuizOption = index;
+  document.querySelectorAll('#quizOptions .qcm-option').forEach((el, i) => {
+    el.classList.toggle('selected', i === index);
+  });
+  document.getElementById('btnQuizSubmit').disabled = false;
+}
+
+function submitQuiz() {
+  if (STATE.quizAnswered[STATE.currentQuiz]) return;
+  const q = QUIZ[STATE.currentQuiz];
+  const isCorrect = selectedQuizOption === q.correct;
+  const points = isCorrect ? q.points : 0;
+  if (isCorrect) STATE.quizPoints += points;
+  STATE.quizAnswered[STATE.currentQuiz] = true;
+
+  const timeTaken = Math.floor((Date.now() - STATE.questionStartTime) / 1000);
+
+  // Lock options
+  document.querySelectorAll('#quizOptions .qcm-option').forEach((el, i) => {
+    el.classList.add('locked');
+    if (i === selectedQuizOption) {
+      el.classList.add(isCorrect ? 'correct' : 'incorrect');
+    }
+  });
+
+  // Feedback
+  const fb = document.getElementById('quizFeedback');
+  fb.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
+  fb.textContent = isCorrect ? '✓ Correct' : '✗ Incorrect';
+
+  // Show next
+  document.getElementById('btnQuizSubmit').style.display = 'none';
+  document.getElementById('btnQuizNext').style.display = 'inline-flex';
+
+  // Send to sheet
+  postData({
+    action: 'submit_answer',
+    email: STATE.email,
+    classe: STATE.classe,
+    application: CONFIG.APP_NAME,
+    volet: 'Quiz',
+    partie: `Quiz — ${q.id}`,
+    question: q.text,
+    reponse_eleve: q.options[selectedQuizOption],
+    reponse_correcte: q.options[q.correct],
+    points: points,
+    points_max: q.points,
+    tentative: 1,
+    temps_secondes: timeTaken,
+    session: STATE.session
+  });
+
+  updateProgress();
+  selectedQuizOption = -1;
+}
+
+function nextQuiz() {
+  STATE.currentQuiz++;
+  if (STATE.currentQuiz >= QUIZ.length) {
+    // Send quiz total
+    const totalTime = Math.floor((Date.now() - STATE.startTime) / 1000);
+    postData({
+      action: 'submit_answer',
+      email: STATE.email,
+      classe: STATE.classe,
+      application: CONFIG.APP_NAME,
+      volet: 'Quiz',
+      partie: 'TOTAL — Quiz',
+      question: '',
+      reponse_eleve: '',
+      reponse_correcte: '',
+      points: STATE.quizPoints,
+      points_max: 10,
+      tentative: 1,
+      temps_secondes: totalTime,
+      session: STATE.session
+    });
+    showScreen('screenTransition');
+  } else {
+    renderQuiz();
+  }
+}
+
+// ============================================================
+// EXERCISE RENDERING
+// ============================================================
+function startExercise() {
+  STATE.currentEx = 0;
+  renderExercise();
+  showScreen('screenExercise');
+}
+
+function renderExercise() {
+  const ex = EXERCISES[STATE.currentEx];
+  const container = document.getElementById('exContent');
+  document.getElementById('exCounter').textContent = `Question ${STATE.currentEx + 1} / ${EXERCISES.length}`;
+  STATE.questionStartTime = Date.now();
+
+  let inputHTML = '';
+
+  if (ex.type === 'qcm') {
+    const letters = ['A', 'B', 'C', 'D'];
+    inputHTML = `<div class="qcm-options" id="exOptions">
+      ${ex.options.map((opt, i) => `
+        <div class="qcm-option" data-index="${i}" onclick="selectExOption(${i})">
+          <span class="letter">${letters[i]}</span>
+          <span>${opt}</span>
+        </div>
+      `).join('')}
+    </div>`;
+  } else if (ex.type === 'numeric') {
+    inputHTML = `<div class="numeric-input-group">
+      <input type="text" id="numericAnswer" placeholder="0,00" autocomplete="off">
+      <span class="unit">${ex.unit || ''}</span>
+    </div>
+    <div class="entry-hint">Utilisez le point ou la virgule comme séparateur décimal.</div>`;
+  } else if (ex.type === 'entry') {
+    inputHTML = renderEntryTable(ex);
+  } else if (ex.type === 'impact') {
+    inputHTML = `<div class="impact-grid">
+      ${ex.years.map((y, i) => `
+        <label>${y} :</label>
+        <input type="text" class="impact-input" data-index="${i}" placeholder="Montant" autocomplete="off">
+      `).join('')}
+    </div>
+    <div class="entry-hint">Indiquez un montant négatif (-) pour une charge nette et positif (+) pour un gain net. Utilisez le point ou la virgule.</div>`;
+  }
+
+  container.innerHTML = `
+    <div class="question-card">
+      <div class="q-points">${ex.points} point${ex.points > 1 ? 's' : ''}</div>
+      ${ex.context ? `<div class="q-context">${ex.context}</div>` : ''}
+      <div class="q-text">${ex.text}</div>
+      ${inputHTML}
+      <div class="feedback" id="exFeedback"></div>
+      <div class="action-row">
+        <button class="btn btn-secondary" id="btnExSkip" onclick="skipExercise()" ${STATE.exAnswered[STATE.currentEx] ? 'style="display:none;"' : ''}>Passer →</button>
+        <button class="btn btn-primary" id="btnExSubmit" onclick="submitExercise()" ${STATE.exAnswered[STATE.currentEx] ? 'style="display:none;"' : ''}>Valider</button>
+        <button class="btn btn-primary" id="btnExNext" onclick="nextExercise()" style="display:none;">Suivant →</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderEntryTable(ex) {
+  const nbLines = ex.expectedLines.length;
+  let rows = '';
+  for (let i = 0; i < nbLines; i++) {
+    const isCredit = ex.expectedLines[i].credit > 0 && ex.expectedLines[i].debit === 0;
+    rows += `<tr>
+      <td>${isCredit ? '<span class="indent">à</span>' : ''} <input type="text" class="account-input entry-account" data-line="${i}" placeholder="${isCredit ? 'Compte' : 'Compte'}" autocomplete="off"></td>
+      <td><input type="text" class="amount-input entry-debit" data-line="${i}" placeholder="${!isCredit ? '0,00' : ''}" autocomplete="off" ${isCredit ? 'disabled style="background:#f8fafc;"' : ''}></td>
+      <td><input type="text" class="amount-input entry-credit" data-line="${i}" placeholder="${isCredit ? '0,00' : ''}" autocomplete="off" ${!isCredit ? 'disabled style="background:#f8fafc;"' : ''}></td>
+    </tr>`;
+  }
+
+  let journalHTML = '';
+  if (ex.journal) {
+    journalHTML = `
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Journal utilisé :</label>
+        <select id="journalSelect" style="padding:10px 14px;border:2px solid var(--gray-200);border-radius:var(--radius);font-family:var(--font-body);font-size:14px;font-weight:500;color:var(--navy);outline:none;background:white;min-width:320px;cursor:pointer;">
+          <option value="">— Choisissez le journal —</option>
+          <option value="JOD">JOD — Journal des Opérations Diverses</option>
+          <option value="JF">JF — Journal Financier</option>
+          <option value="JA">JA — Journal des Achats</option>
+          <option value="JV">JV — Journal des Ventes</option>
+        </select>
+      </div>
+    `;
+  }
+
+  return `
+    ${journalHTML}
+    <table class="entry-table">
+      <thead><tr><th>Compte</th><th style="text-align:right">Débit</th><th style="text-align:right">Crédit</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="entry-hint">Entrez le numéro de compte (ex : 6360) et les montants avec deux décimales. Point ou virgule acceptés.</div>
+  `;
+}
+
+let selectedExOption = -1;
+
+function selectExOption(index) {
+  if (STATE.exAnswered[STATE.currentEx]) return;
+  selectedExOption = index;
+  document.querySelectorAll('#exOptions .qcm-option').forEach((el, i) => {
+    el.classList.toggle('selected', i === index);
+  });
+}
+
+function submitExercise() {
+  const ex = EXERCISES[STATE.currentEx];
+  STATE.exAttempts[STATE.currentEx]++;
+  const attempt = STATE.exAttempts[STATE.currentEx];
+  let isCorrect = false;
+  let studentAnswer = '';
+  let correctAnswer = '';
+
+  if (ex.type === 'qcm') {
+    if (selectedExOption < 0) return;
+    isCorrect = selectedExOption === ex.correct;
+    studentAnswer = ex.options[selectedExOption];
+    correctAnswer = ex.options[ex.correct];
+  } else if (ex.type === 'numeric') {
+    const val = parseAmount(document.getElementById('numericAnswer').value);
+    if (isNaN(val)) return;
+    isCorrect = Math.abs(val - ex.answer) <= (ex.tolerance || 0.01);
+    studentAnswer = String(val);
+    correctAnswer = String(ex.answer);
+  } else if (ex.type === 'entry') {
+    const result = validateEntry(ex);
+    isCorrect = result.correct;
+    studentAnswer = result.studentStr;
+    correctAnswer = result.correctStr;
+  } else if (ex.type === 'impact') {
+    const result = validateImpact(ex);
+    isCorrect = result.correct;
+    studentAnswer = result.studentStr;
+    correctAnswer = result.correctStr;
+  }
+
+  const timeTaken = Math.floor((Date.now() - STATE.questionStartTime) / 1000);
+  const points = isCorrect ? ex.points : 0;
+
+  // Feedback
+  const fb = document.getElementById('exFeedback');
+  fb.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
+  fb.textContent = isCorrect ? '✓ Correct' : '✗ Pas correct — tu peux réessayer ou passer.';
+
+  if (isCorrect) {
+    STATE.exPoints += points;
+    STATE.exAnswered[STATE.currentEx] = true;
+    fb.textContent = '✓ Correct';
+    document.getElementById('btnExSubmit').style.display = 'none';
+    document.getElementById('btnExSkip').style.display = 'none';
+    document.getElementById('btnExNext').style.display = 'inline-flex';
+    lockExInputs();
+  }
+
+  // Send to sheet
+  postData({
+    action: 'submit_answer',
+    email: STATE.email,
+    classe: STATE.classe,
+    application: CONFIG.APP_NAME,
+    volet: 'Exercice',
+    partie: ex.partie,
+    question: ex.text,
+    reponse_eleve: studentAnswer,
+    reponse_correcte: correctAnswer,
+    points: points,
+    points_max: ex.points,
+    tentative: attempt,
+    temps_secondes: timeTaken,
+    session: STATE.session
+  });
+
+  updateProgress();
+  selectedExOption = -1;
+}
+
+function validateEntry(ex) {
+  const lines = ex.expectedLines;
+  let allCorrect = true;
+  let studentParts = [];
+  let correctParts = [];
+
+  // Journal check (if required)
+  let studentJournal = '';
+  if (ex.journal) {
+    const journalSelect = document.getElementById('journalSelect');
+    studentJournal = journalSelect ? journalSelect.value.trim() : '';
+    if (studentJournal !== ex.journal) allCorrect = false;
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+    const accountInput = document.querySelector(`.entry-account[data-line="${i}"]`);
+    const debitInput = document.querySelector(`.entry-debit[data-line="${i}"]`);
+    const creditInput = document.querySelector(`.entry-credit[data-line="${i}"]`);
+
+    const studentAccount = (accountInput?.value || '').trim();
+    const studentDebit = debitInput?.disabled ? 0 : parseAmount(debitInput?.value || '');
+    const studentCredit = creditInput?.disabled ? 0 : parseAmount(creditInput?.value || '');
+
+    const expAccount = lines[i].account;
+    const expDebit = lines[i].debit;
+    const expCredit = lines[i].credit;
+
+    // Check account (accept with or without leading zeros, case insensitive)
+    const accountOk = studentAccount === expAccount || 
+                      studentAccount === String(parseInt(expAccount));
+    const debitOk = expDebit === 0 ? true : Math.abs((studentDebit || 0) - expDebit) <= 0.50;
+    const creditOk = expCredit === 0 ? true : Math.abs((studentCredit || 0) - expCredit) <= 0.50;
+
+    if (!accountOk || !debitOk || !creditOk) allCorrect = false;
+
+    studentParts.push(`${studentAccount} D:${studentDebit||0} C:${studentCredit||0}`);
+    correctParts.push(`${expAccount} D:${expDebit} C:${expCredit}`);
+  }
+
+  const journalPrefixStudent = ex.journal ? `[${studentJournal || '?'}] ` : '';
+  const journalPrefixCorrect = ex.journal ? `[${ex.journal}] ` : '';
+
+  return {
+    correct: allCorrect,
+    studentStr: journalPrefixStudent + studentParts.join(' | '),
+    correctStr: journalPrefixCorrect + correctParts.join(' | ')
+  };
+}
+
+function validateImpact(ex) {
+  const inputs = document.querySelectorAll('.impact-input');
+  let allCorrect = true;
+  let studentParts = [];
+  let correctParts = [];
+
+  inputs.forEach((input, i) => {
+    const val = parseAmount(input.value);
+    const expected = ex.answers[i];
+    if (isNaN(val) || Math.abs(val - expected) > (ex.tolerance || 0.50)) {
+      allCorrect = false;
+    }
+    studentParts.push(`${ex.years[i]}:${isNaN(val) ? '?' : val}`);
+    correctParts.push(`${ex.years[i]}:${expected}`);
+  });
+
+  return {
+    correct: allCorrect,
+    studentStr: studentParts.join(' | '),
+    correctStr: correctParts.join(' | ')
+  };
+}
+
+function lockExInputs() {
+  document.querySelectorAll('.question-card input').forEach(inp => inp.disabled = true);
+  document.querySelectorAll('.question-card select').forEach(sel => sel.disabled = true);
+  document.querySelectorAll('.qcm-option').forEach(el => el.classList.add('locked'));
+}
+
+function skipExercise() {
+  const ex = EXERCISES[STATE.currentEx];
+  const timeTaken = Math.floor((Date.now() - STATE.questionStartTime) / 1000);
+
+  // Send skip as 0 points
+  if (!STATE.exAnswered[STATE.currentEx]) {
+    postData({
+      action: 'submit_answer',
+      email: STATE.email,
+      classe: STATE.classe,
+      application: CONFIG.APP_NAME,
+      volet: 'Exercice',
+      partie: ex.partie,
+      question: ex.text,
+      reponse_eleve: '[Passé]',
+      reponse_correcte: '',
+      points: 0,
+      points_max: ex.points,
+      tentative: STATE.exAttempts[STATE.currentEx] + 1,
+      temps_secondes: timeTaken,
+      session: STATE.session
+    });
+    STATE.exAnswered[STATE.currentEx] = true;
+    updateProgress();
+  }
+
+  nextExercise();
+}
+
+function nextExercise() {
+  STATE.currentEx++;
+  if (STATE.currentEx >= EXERCISES.length) {
+    finishEvaluation();
+  } else {
+    renderExercise();
+  }
+}
+
+// ============================================================
+// FINISH
+// ============================================================
+async function finishEvaluation() {
+  stopTimer();
+  const totalTime = STATE.elapsed;
+  const totalPoints = STATE.quizPoints + STATE.exPoints;
+
+  // Send exercise total
+  postData({
+    action: 'submit_answer',
+    email: STATE.email,
+    classe: STATE.classe,
+    application: CONFIG.APP_NAME,
+    volet: 'Exercice',
+    partie: 'TOTAL — Exercices',
+    question: '',
+    reponse_eleve: '',
+    reponse_correcte: '',
+    points: STATE.exPoints,
+    points_max: 30,
+    tentative: 1,
+    temps_secondes: totalTime,
+    session: STATE.session
+  });
+
+  // Send global total
+  postData({
+    action: 'submit_answer',
+    email: STATE.email,
+    classe: STATE.classe,
+    application: CONFIG.APP_NAME,
+    volet: 'Évaluation',
+    partie: 'TOTAL — Évaluation',
+    question: '',
+    reponse_eleve: '',
+    reponse_correcte: '',
+    points: totalPoints,
+    points_max: CONFIG.POINTS_MAX,
+    tentative: 1,
+    temps_secondes: totalTime,
+    session: STATE.session
+  });
+
+  // Mark as completed
+  postData({
+    action: 'complete_eval',
+    email: STATE.email,
+    app: CONFIG.APP_NAME
+  });
+
+  // Show summary
+  document.getElementById('totalScore').textContent = totalPoints;
+  document.getElementById('totalMax').textContent = `/ ${CONFIG.POINTS_MAX}`;
+  document.getElementById('totalPct').textContent = `${Math.round((totalPoints / CONFIG.POINTS_MAX) * 100)} %`;
+  document.getElementById('quizScore').textContent = `${STATE.quizPoints} / 10`;
+  document.getElementById('exScore').textContent = `${STATE.exPoints} / 30`;
+  document.getElementById('totalTime').textContent = formatTime(totalTime);
+
+  showScreen('screenSummary');
+}
+</script>
+</body>
+</html>
