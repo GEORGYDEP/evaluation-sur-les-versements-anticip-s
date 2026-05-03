@@ -701,6 +701,17 @@ body {
   </div>
 
   <!-- ============================================================
+       SCREEN: LOCKED (Verrou fermé — évaluation non disponible)
+       ============================================================ -->
+  <div class="screen" id="screenLocked">
+    <div class="login-card">
+      <div class="icon-badge">🔒</div>
+      <h2>Évaluation non disponible</h2>
+      <p class="subtitle">L'évaluation n'est pas ouverte actuellement.<br>Attends les consignes de ton professeur.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
        SCREEN: QUIZ
        ============================================================ -->
   <div class="screen" id="screenQuiz">
@@ -798,123 +809,124 @@ const STATE = {
 // ============================================================
 // QUIZ DATA — 10 questions théoriques
 // ============================================================
+// Données chiffrées (AES-256-GCM) — déchiffrées après login validé
 const QUIZ = [
   {
     id: 'Q1',
-    text: "Quel est l'objectif principal des versements anticipés pour une entreprise (société) ?",
+    text: 'NnBWAnB0O/UUDzi+.bb1K1bKBdpKn1kmmNqKZadLCJS1ZoPM+0SqFf1qwMkZlR9xVI0p9YLmY0XwgKkyfilGCHn1m8b1ieVqa71EijuOZDyP57+c2V4bqqUhGlhpkTnf4hrgQEn1tFlBoqNw/DqCmCWEBXGHZ',
     options: [
-      "Obtenir un crédit d'impôt automatique de l'État.",
-      "Anticiper le paiement de l'impôt annuel et éviter une majoration pour insuffisance de VA.",
-      "Bénéficier d'une exonération fiscale totale sur le bénéfice.",
-      "Reporter le paiement de l'impôt à l'année suivante."
+      'LhctipD0zX7QyzF1.EfK72l2J5aMlEHvMzBT473TpXhfA3Hs1fEILv+p1Qz9to4+VOR0OmsEtqA0FTe0FbLfgbXjpjwzPZjYGt8tTiwXPBg==',
+      'YSnuT+gIIeO80N9S.AMPSWIFk8X/CrcIcHdoD+6GQHehwJJFH0lmMDcarE95Dc3e0eVbw94yebyc65rxCXj5tHUPgeEk7xLPEGvuVKtMI6C1jnB1kWk4Ykue9YyqEfgFQJqiQ6EZ+1xsLX+OJq2rzYho3v/48zaY=',
+      'Z7/a+PX4DWORjKnM.1NSGWXSQWwEpE/NS5bCvxvn3xRNCYtu9oqvsmCJcmX0/tWZAWfNZapD9e9ZXIgAEmOn54CAs+eUpBuOICl3Qung/7aCZeRvYrkCxn5i8ZvBu',
+      'hqKtiMUwQrALkVLZ.mHESUrBNEXHUnoTj2Mk8RSCB0YO08sqtRSkPRBZ8jVxozQarye+qDnMtE8OEQRsWMr02EY3/r07CB+VpbPLY6WmWPt4YJA=='
     ],
     correct: 1,
     points: 1
   },
   {
     id: 'Q2',
-    text: "Les versements anticipés sont-ils obligatoires pour une société ?",
+    text: 'y9BmWLsisC1/kwDq.bTbclGL2y5oYO03aiUJDg2q1Mr3jeQHdGxRi50OdD/oDhqpr+CwWbfyjAQ9n3RDGmCGQnsYeyhCv2ekBhnYTysY7dReBUzZjV+mC0AJbx8EkZ6CH',
     options: [
-      "Oui, ils sont strictement obligatoires sous peine de sanctions pénales.",
-      "Non, mais leur absence ou leur insuffisance entraîne une majoration d'impôts.",
-      "Oui, toute société doit verser exactement 25 % de son résultat estimé.",
-      "Non, ils sont totalement optionnels et sans aucune conséquence fiscale."
+      'Z1MkE1obY4KJVcBx.Dy8j63w5gjpd2UrPupFNSqIConYE73kUvARflKHvXaycJaqZQyB7TH39pZt44cfnRQmAPA3Cs/iVg0CU0adwiSASUMNjUvh18p8XqVi/dNx9KJjy0u7CYQ==',
+      'ypyXNhdtYKGz1vVC.Mrnma40bZiKQppUKGBclzPrCQvFLi4j5UXyCKn1PvPPN1+Hvq/ksAcUQ+CWHb/uHvz8vq22gr+VHjKpid7inOsQRl+mKGzslAagMJRe8fMIXLQMZVKezRbGkFVB5DnQ=',
+      'CwOD5ofGCHVtnxlI.qZcr+M8X8yjGDZRgT0OYduJnOB3Glq1KFeS1rOf1baEXBxQF54LZeNqACkN5QcE8LGmtH6w/m/G744MQ+Rzlr/I4YnqsGmCGpjlf63cBrESEFsI3r/p9s3Cx',
+      'NQ7wOwny6eqxibHN.MC6ZASma1T6GnnokNAt9deNBGmSVJ5rZd4IuqQSKrrOXrKMY12RnuRzfw/RnbjNpYMAlVzyDTGPbdeOcdTc4ZSU+yRWT+ZT6mQOBT0ki2tijbFqgo4YpWw=='
     ],
     correct: 1,
     points: 1
   },
   {
     id: 'Q3',
-    text: "Combien de périodes de versement anticipé sont prévues dans l'année civile pour les sociétés ?",
+    text: 'kp3hX5QSFrx753eV.ICSZzmZPHsR/Fl8RWkeg+/iD11A91s5VQ6scPRXfjAZyNUAoir7KA3jI4FOFILN7mAUJQqRWIz0Yc/tL/paDms6g29hs8sGvUjiEezU6rrYeQdYQeUNrnU2hi+qAgKZNj6Z6hISSInnM6vEncIXVRRQb9Ek=',
     options: [
-      "2 périodes semestrielles.",
-      "4 périodes trimestrielles.",
-      "6 périodes bimestrielles.",
-      "12 périodes mensuelles."
+      'ewqd4HMw5oLKK4Io.JAxuBOs641bp1tJ7lheWkr8D7qSU7duHPn3wW7IfervSGqUsc19SC7hY',
+      'CoNtE8HHwwA8aq9d.S+nqr1D8Myqo4TuvafGVd4unwJABjBW008s/Wz7o1VQvUrWVJHg3ls9I/w==',
+      'eKs8oy8yGzeLaN5A.uymWui+Qg5sme71osTnP5woIAogX5Uplnnu8tfzF6InfabwrAlMsNnYd',
+      'yDNNsqhJrylh6SnW.ZLPEeG4m8/CnWNSim8gkY+oFqsijFyP6sNXHwHSL1sYu/ljsc2mHtA=='
     ],
     correct: 1,
     points: 1
   },
   {
     id: 'Q4',
-    text: "Quelle est la date LIMITE pour effectuer le VA3 (3\u1d49 période) ?",
+    text: '73BcwugLBq472Uvm.R3ShKx8PC8HVY1DQE18YJcoE9fQzq6yfaRggAqk9KWQuxBOJXG7U93IKlk8ex+aaI71C4uHJgW/jj3VHo0+/WNKXQRZ+JuNdUs7H6XhOTq5w',
     options: [
-      "Le 10 avril.",
-      "Le 10 juillet.",
-      "Le 10 octobre.",
-      "Le 20 décembre."
+      'unWuZK+sE+zWWKMt.QqwP7WiptZb5LHLHcKCxUn85XtlRDsvYnwWOTQ==',
+      '+QgdHPb1uIH07KGV.PUIyG/DwmfiiKDvS2PwVfwWJ3vNPqU/Vum+g68w2',
+      'l2Fec4K48A3PrmOB.aoSi6V7F3WZbIMLtnftYE8jN2BpC/dqDq0xBa0wB',
+      'uIIwtJKF0oQzeGln./KsFr9MIFQVvZyK2U/8nD9EA/EBcCqMFTMbndOeuIU4='
     ],
     correct: 2,
     points: 1
   },
   {
     id: 'Q5',
-    text: "Que se passe-t-il si une société n'effectue AUCUN versement anticipé alors qu'elle réalise un bénéfice imposable ?",
+    text: 'CDugYPdzhkQ9jyqv.DCabg7dO2qaY1Fwy60YLm40EGBz+HfvGLDZp0hSdyG0cn97kyglCmUXTVGGaX6ZlaW7Ove5yRoZGvso2RuK3ORJ1LKB0EMLkB9boz5a0HeHaGL+cuIX5QOfVsT3vpRbnDUAIwqlR6jlseiqjvOKaRV59n/88VAxQnLOmBmKNzCjD8MXP5GyGLA==',
     options: [
-      "Aucune conséquence financière particulière.",
-      "Le fisc calcule une majoration d'impôt qui s'ajoute à l'impôt dû, augmentant la somme à payer.",
-      "La société perd automatiquement le droit de déduire ses charges de l'exercice.",
-      "L'impôt est automatiquement doublé par l'administration fiscale."
+      'RT32S51Ka0c7DP8v.VXsU6BgId7zFgqDxUbUBqe66/Pm/wdTqTdmP5fnbDPVp6gialbKtTuQl6Ig3oEK/BfndLpfmQ1cW6yqY6Ho=',
+      '9JpYW7/SFrRLw42w.mQj9tSaf5ywTtLDmnNdfKxpg5xPF9v1wq3R02cTv+npzNN1ZiD0J+tcaWVSrfXRm+18JFPVVtOxuuJOdRQKR5tR8ngIhlVXhClZpQuH/DL9KDwGTdeg3sfMIRCSwwINs+7kO0hLLYeh7WEZl/ZWQjhJQBA==',
+      'EHHr47RsZ3mbfMSH.PERCjyf02conDuwJ7Poe92oAdzNdOjp2eUL9ZR4tbj2DxEazCqrkwwvdrm9zwV7HqPe33CvnRDS2KIpUv8+6qYcGyp4gPE8OHwLmTNFA6WiIZDkC3qphnHYm9jYV4dqphA==',
+      'eYJZn3dqs2ipIQSy.FS0e4AWzWI5uJioNqNnwZvcYcz3FgjBtztrF3bheLgqYeB8YAh0+YDHDEr/LmgtaqqoBFoBZaRvqDq8bjC0DHq0j/is2p9xW6yAEWapXn5Bvuw=='
     ],
     correct: 1,
     points: 1
   },
   {
     id: 'Q6',
-    text: "Dans le PCMN, quel compte est DÉBITÉ lors de l'enregistrement d'un versement anticipé d'impôt ?",
+    text: 'QxWKnTQwuUZ5yHgH.Q4699Qm3KWXY6e/2ik6SCbD6IRRdRThTh1z45R8rBrUzz4/V3NMHWH3pKJO+nVHAbbH9DdzXLc14DmWP4YDjCR7t0GeXVg4Rw4OhOr/J9lwVtsfniv+MjaZAncaQC3rcVob320rUKmBrhIbwtINFed0kLw==',
     options: [
-      "4120 — Impôts et précomptes estimés à récupérer (actif).",
-      "4500 — Dettes fiscales estimées (passif).",
-      "6700 — Impôts et précomptes dus ou versés (charge).",
-      "6711 — Excédent de versement d'impôts (charge négative)."
+      'ldCKOVntxTn8GwTH.pu/mTE5/T+O6n22fpRadlqwpZ4KRiXVfPH+SWpC0pkvjKdaURLqEfIVGxdjaGdm+99Jt4pALomGOslKWZBnPqCBkTrM1tS95hm0jVZlHCIA=',
+      'CgefeRC8Gb1wW5VT.61DJ1j0n7zncgFMJxLiJZaxY/bZ1jsOrR7uE87JyoU0YCo025UjmFh+lMAdNIhSiubbwWIaeQ6+xbRrK',
+      'Calx60+JuRlU861j.eZg6KftFk4/kZH2scZHic5i2kdfA6uo3rNfp6lZP3kzApK4cCx0Q5V0Ktt3qzgqBzL+LpeMl9A5lsJAUv8IEmsLPkFcexu+F',
+      'O2k/2oAPH9qz1+JM.h4h5m++Wvxepln32szrrOu3lFtCvMM5O+w1FZk61rMJZg94lPcL7QVeAEs1n5RFNlK8nIA1WgOjt7gVJ/gYPRyCZNFF/8R4OyB/Ydxc='
     ],
     correct: 2,
     points: 1
   },
   {
     id: 'Q7',
-    text: "En fin d'exercice, l'impôt estimé s'élève à 25 000 € mais l'entreprise n'a versé que 20 000 € en VA. Quelle régularisation comptable est nécessaire ?",
+    text: 'xmxj5VFza4XaB6ZY.7EeKKKZ60Ic0nEuaUBXe5017ceQhzBR+YgoGGy+jUzGAklTg4RbuAxykJBPcnimMmlX49/rOFVaM7GlPmzI8TGpLu2Hx7fLjr8LHacLKqxP4VBH6ewbR6z5ugrnORLyA97GiM2tG5rcerbOsXpJd/ICjQBYMjp15nj0+5XHy8c7HF1XI0sui+3n0D7ObL3PolJXx3CK9CktTiKDtnHVPfPQxPN8cqvQuTon0o0QfzWM2',
     options: [
-      "Aucune régularisation n'est nécessaire, on attendra l'AER.",
-      "Il faut AUGMENTER les charges d'impôt de 5 000 € (création d'une dette fiscale estimée au passif).",
-      "Il faut DIMINUER les charges d'impôt de 5 000 € (création d'une créance à l'actif).",
-      "Il faut annuler toutes les écritures de VA et recommencer le calcul."
+      '1/TXQnZxfRfaxxbF.pHM08FK8g4Inq5oWH6e0ul11tPlyN4gZCQF4+3W28RD2tVWa8wL3xp96SVIINmfnVy6pHgHHP+iH4K1HxTXh+vIalDY3BN14tFFLhQ==',
+      '+EfMXRJvwJDT3XsO.ViU9cu8feH5RnnkS/+sclp8ZcbS07MV+1/XaOQZnC8YT6vEq+cJ+6lJg6QqWQe72hgWaPGvOfVpOK0HZYovhtOk7VS72htyCHWd5BQ7qnOdR0hV70ZjDXwe5NGyX709bsr6ujUXods1wTypCdQQ0dlxJTy2KNdg=',
+      'F+oayWkGLQvKQ/IF.fQoFZwddx7p61imyI3+PyJarxkG17FvyPwg3a+RxuPRUzNghfPRJJ/0Ek7FAlaKUPnVxo8u65dkIWqZaXmFK+H/SSgWh5EvHxmATiip3uDUp4IM4i+OeuhQ/8GFWjn/RzZYhafCgUsjo',
+      'DAXbDFTfKktb8ik+.Xb0j2jk5edEZaZQYyHIH4EIVW1CIZud3Eh4k+MjESKtqMhuAXQ/J2ysXFAJF12ymkcvLCQx0cN/tnR20E2WpCOUQtoy1I/XRuU3CUNNhui3Uq54chw=='
     ],
     correct: 1,
     points: 1
   },
   {
     id: 'Q8',
-    text: "En fin d'exercice, l'impôt estimé s'élève à 10 000 € mais l'entreprise a versé 15 000 € en VA. Quelle écriture passe-t-on pour régulariser l'excédent de 5 000 € ?",
+    text: 'ejQWqxn1fq+g7mBQ.a8xpVh5fT8mVXCxixGVNhYETN0xsJJ9bEHidgHwijkVLUfIMd6aCqk7VEmwZy0oUjxwrNdKgHjSJCR6bhLrTJbYS/HkAwfyW94K6hRrBbnTNPjCoLdPBJE6sv9eXWwKLq1AHA9ZH3JZaYjloIehPXtLNQQsJlLSaPtIKrCGd0ATT7yytjDMHAoc93xGZBtexlrjTnik2XdL48zmKlpCqxep0Yh+0f2onqTkOWBTSVuX7CNmxE11mII3ucE8wmkijSQ==',
     options: [
-      "Débit 6702 Charges fiscales estimées / Crédit 4500 Dettes fiscales estimées.",
-      "Débit 550 Banque / Crédit 6700 Impôts et précomptes dus ou versés.",
-      "Débit 4120 Impôts à récupérer / Crédit 6701 Excédent de versement d'impôts.",
-      "Aucune écriture n'est nécessaire, l'excédent sera automatiquement remboursé."
+      'JFt+zp4cdZLyb/At.M/0tiMK6Eo/GRRYDp0q6pSpE96Gjy3it9fWM34A+t4ckrK4x64EFBe3QfwIgmOvwYlK5bd+3V1fLWmrPOnY+zmG+UapShST0Vyc2BP3AS7pF5F38QLe/4gOnSMXslqfW',
+      'ET+ww6u2KgLU1xJw.rZ7BlEubnKGoT0VYChVutvMo+VYInPr5A4t1Ah2E7TBveWsdMKgq9cpnTtSTW2Rg1JjivIUM9UNZxbv2lnLjy/onyDEJ3cfEYAeRPyr95v9D39DsZfiW',
+      'gQlJOPmyB7GwaHkb.SLl2JHimvho42+elMwjFPONTh88w8AE3tQb0wmMV9HD86uFpmlN7OADQTwux4d5kMYKB32loHZ6ylmUXI1oWIdrlF/5yENUJmZ6ZBXKuip1QXuZl7lamEeu5bCN3fRYUbPBH',
+      'VCCWahCqd79qG5el.7CGF6PSAKJOBS7j7lNQOr8CAKcdpWMR0EzO59qlnF1b2yMWrj8MRWiFkSev9MR/j4pNqbWN8knThPMQZG5zLLxH0cUEtpShIJn4lNiMPyfwRjc0r+neYHhOe38tj6z7R'
     ],
     correct: 2,
     points: 1
   },
   {
     id: 'Q9',
-    text: "Quel est le taux de majoration globale appliqué sur l'impôt dû des sociétés pour l'année de revenus 2026 ?",
+    text: '+gT75gGWoNZ1qKmB.wKPj8H3bNPGNkXybnRkG9t0vOXSWmG+6J/oYa3z9zaqyb6ReJWPsuUYRjGAlHjA3hZJqeuzd10UNnwWPPZYxc/a8IRLMCYpbBT7U8Xo2+BD79yFcX7jU46YwzVYNbxzPxbQkiVkqfMoC4Ed6NrQ4mrnokKJV8DHTXW5UmSpSkww=',
     options: [
-      "2,75 %.",
-      "6,75 %.",
-      "10,50 %.",
-      "15,00 %."
+      'krwzWGf9AUC144yz.Vu81DtjlZ4mPbR8FJuXl74lSSCyY2+U=',
+      'jf1Hg31FrM+OsWYv.thQvD/l3dM1nUtQeQyTeXaMigRTruj0=',
+      '566iFbX4HB0kbmMW.FelSRb9raAgJhgo98JMxXIqzYhBUMp+E',
+      'WAKCd3BPO/KgSBGA.JcPuSmWavK2pKHoy1f9k4vHOKgjgGklY'
     ],
     correct: 1,
     points: 1
   },
   {
     id: 'Q10',
-    text: "Pour les sociétés, plus un versement anticipé est effectué TÔT dans l'année, plus :",
+    text: '3MvB9QNPGygFUwDh.9YB02td/XdNI/VyW5kZenNGRGgNfqCEt8W3iVaxKIeh6F+Yr9giEgR84Rfb1WeWU+frYCJfKHwug3sxb8ycQWzxD/hf4eHBCMx8e2FgNXHuPOZBIjk8DBCdeeR6DTtMFQ5ua0eB1kcyF',
     options: [
-      "le taux de réduction de majoration qui lui est associé est ÉLEVÉ (ex. : 9 % pour le VA1).",
-      "le taux de réduction de majoration qui lui est associé est FAIBLE.",
-      "le montant versé doit être important (minimum 25 % de l'impôt estimé).",
-      "il est pénalisé par le fisc via une taxe supplémentaire."
+      'cij4c1NDFuSTeP9U.gQm7ctXJTB2T7mJVP7PSaS9Hgij6GLpmt0I7Ow/Mo6G9J7Uds5DnSHkImw4n4JcoVN1qKw6VvyUVNcPE9xCT4TQZN/s8SDv3xrIR6XeaeGwWs5uiPXOXwQCuoS8Scu/ER1VfrLULGb1wSX+ypg==',
+      'CqOmxPnu72BaIvk2.kHJ1OeInL/lBS7u3XYztD5eNaljAC1quvkT7Jbv/JyBkZxAxXgxIxHfT05eil5EKlWdtVgKcCGjIxPZyq1USGf/OQQ9T37EvMaUjLbeA3O4DmJRq',
+      'Dlua3ARCVCmV0MKq.gs8UGVxiZrLBsnO9yOCqdJWAXPkYMmNzFIv6Y3eNxx5iVX8v2YUCyY/WbTYpcuez/osDfUxVG7qPVFtyECVmYR20bUumglyZLosU7zwtkg7w6t1+YidJFQUE',
+      'e//sxZBgGp7bvyyt.MiACHcBvHK2W9pMy9i8TxYrpa/CO2qPNFrWSgf7rtBgWAaVui8gkiSsXgkCMWxmS9JtHmaXjyNN9nsDf4TJqeSKz0mgEewZY3680'
     ],
     correct: 0,
     points: 1
@@ -924,126 +936,117 @@ const QUIZ = [
 // ============================================================
 // EXERCISE DATA
 // ============================================================
-const CONTEXT_EX1 = `<strong>Exercice 1 — Entreprise « Moulin »</strong><br>
-Pour l'année N, l'entreprise « Moulin » a effectué les 4 versements anticipés suivants :<br>
-• <strong>VA1</strong> (01/02/N) : 6 250,00 €<br>
-• <strong>VA2</strong> (30/04/N) : 4 375,00 €<br>
-• <strong>VA3</strong> (01/10/N) : 1 750,00 €<br>
-• <strong>VA4</strong> (19/12/N) : 6 555,00 €`;
+const CONTEXT_EX1_ENC = 'LgBe/msd18CYZ0nk.ko2HMmlvfy7onFUt1goycVQumt7UrzsE8BHjJQdG46BkQXINOsbEYLI4GlUVu9gANmxdCirERCMB8tyjZSrbTzslH/1DBorKRO5NHPim4q4tC28F8bdX8xsdG5B6Xt4XzhawlkSyGmqfdYrHl93goiwmlud9XiJkEDYlhmpdFkOxhgUyexojxnThZWNQ88u4YVgRKO1dzLv5Vq/OewBdeU999aMgqY3hghEssZ68qzQKNu4Jl6CiFBPti4CN2Bm9DxAWh671eWqHnd3Qiq3EtbNaQqB0uCX+nQp027myf5hRdZLoDdSHmfw8EO10Qd3CptsxJGe1hLZ4kZtYfHPv9+pBZ3m3VYemk/oBdlUGY4EZlJuFhO0dTE9G2G1pKyCeia/YBw/Qbc3mYhHivhgu1yJo4ybNzE+VdUaOsQBEAxLs5dJQEr7X/OSgkyO5ll+asNnYf3IekSMoGFsf8szVPsbV4tu/WKvCvjn+J3zAK+PHzW0MBFEF5C2gEanW3Fme0Q==';
+const CONTEXT_EX2_ENC = '+ie4ABst04xzV0Eh.6w7FUNZhSzH7v2bEftJe1H4A25pmqiLMaGr4+aOdC0xqSM+OnirBekfvXcg5/DqmtexbyFeuYumlQoYINd6HkBLBJlf7bBVkXLWEO53OIPezVWbcZJ28IXeckA38N8gqRvsAgXd0Ldk+otsjfG2w0fQ7jkKYuZ64L7Mw2QUKUWiQ+a3zwT4xh3phVtffBnawNLen+ScL6gmR88q2g5y2C6F4zclzGxjJWvCz4xvXtRIr+Wfyf6uGmDp9I7BouTNXlK7JVQAwx23zzrYEOA5sm5wcomziI5X9ZTK/T1NN02GAtSsVGegRODss4nQkCzv7qjk77u6PAQKJpXZ4FzDcAGzQX5c6VeRjGSWd2Wn2A/LGdvc6yz9fbUFZe+5wkNe8akiAArwDEhriQouvEv79vPl3muP6m6Xn/1kwBAO4WtiwqmC7bfjofF+hL45T6Ggyd+E4CvhLXeVSAoLVBtyjI7+EI26+Awa/h1z5qN0gch/65mDA/P8iScBcTJKpvevAAz33uFm6LHiIYntqErYTu65cKUHmReEKhg8GuRut7lCG5UxS/qhox256pg01ju9HnsK+WZTqr7KMBRebVBYrhDyg+JqHVOF2zz3s6jq8aXFTVVS24CV8xVucvmBP5pAHa3pejrBoYmZvW18kF/FLy4bsELLv39cUvC4sgCf8oD2jyS/aGj/I/h/lqZrWVlph1VvxrbmZ9OzgUu9/LBO/XCs7WIvSrU07G033S552yKK0ftC9jqkWPMtV8FXCtgxyi3xGBDaGDdvTG9jiOBzo80xue39JLoE0D0Rxa5k=';
+let CONTEXT_EX1 = '';  // rempli après déchiffrement
+let CONTEXT_EX2 = '';  // rempli après déchiffrement
 
-const CONTEXT_EX2 = `<strong>Exercice 2 — Calcul de la majoration</strong><br>
-L'impôt définitif de l'entreprise « Moulin » pour l'année 2025 s'élève à <strong>32 850,00 €</strong>.<br>
-Versements anticipés effectués durant 2025 :<br>
-• <strong>VA1</strong> (05/01/2025) : 5 550,00 €<br>
-• <strong>VA2</strong> (01/05/2025) : 8 350,00 €<br>
-• <strong>VA3</strong> (01/08/2025) : 2 500,00 €<br>
-• <strong>VA4</strong> (01/11/2025) : 10 000,00 €<br><br>
-<strong>Taux applicables (revenus 2026) :</strong> majoration globale = 6,75 % ; VA1 = 9 %, VA2 = 7,5 %, VA3 = 6 %, VA4 = 4,5 %.`;
+
 
 const EXERCISES = [
   {
     id: 'EX1.1',
-    context: CONTEXT_EX1,
-    partie: 'Exercice 1 — Total des VA versés',
-    text: "Calculez le montant total des 4 versements anticipés effectués durant l'année N.",
+    contextRef: 'EX1',
+    partie: 'djEHxvFrFSZVZi1C.Eejh39m9WvMb7afcJPeQkNmAuHN7C6X4XzMqDextgDIE2IaNi1Wz3yoYMIeBn0YOaOiv',
+    text: 'nNEDLpGg0h/CqWK6.haKa1gk4usgdMUexJOUwcF0VKkWVu39bDQ2RdPFyROzWs7ApCx7oFMTtOgDt5KZQaW7lMGcgt0wrbLUpEgXztqRdOZlnhX8PFgyHYCBY9o8sd1SvV115CeY1bQgC8Bvjb6aq',
     type: 'numeric',
-    answer: 18930,
+    answer: '6ni6vKD1kbQ/XQUJ.XtQMnI15XA/nBM6UJAteiYdIUq80',
     tolerance: 0.01,
-    unit: '\u20ac',
+    unit: '€',
     points: 2
   },
   {
     id: 'EX1.2',
-    context: CONTEXT_EX1,
-    partie: 'Exercice 1 — Écriture du VA1',
-    text: "Enregistrez le premier versement anticipé (VA1 du 01/02/N, montant : 6 250,00 €). Sélectionnez le journal approprié et complétez l'écriture. Utilisez le compte 5500 pour la banque.",
+    contextRef: 'EX1',
+    partie: 'ZsyyCeyGS6A4heSw.L+qpkutohJ3HvA5VhyI4tgXlYBkdLDa3zbF9DsnFPchT8eWQfJac1JRvBnSYDHM=',
+    text: 'l/HHil7jfrrTqCy/.oMCXAvlgtg26nNGD+CyoeQNjiaBkZslvRRTd7t5Qw+B1UM6kwvybmRPuDCb1ChGiBzj8VvnCijfWyIiv7gQWHngTgGk6iTUMT2NxBSnTx4jd7KU5MILhPdJbK/RM6pOWDzAPe5L/KdP0lYeB9Uv+CAi2KphD0boO+z7WIC1dsV80zKSkHBZD/i6ndGC9hqQF8aXmTYiutY3I2nuAWFosu9dL95ljO5ZydqbvjjtUlDV4Z6j7n17vcwpLUTte8O83WA9Rf73KCEqi3sY=',
     type: 'entry',
-    journal: 'JF',
+    journal: 'mZNfo4HyjbMoiQEk.5+Yk4w87gZu6/tX21I6dHPR9',
     expectedLines: [
-      { account: '6700', debit: 6250, credit: 0 },
-      { account: '5500', debit: 0, credit: 6250 }
+      { account: 'HoSMsiSR185UHcPU.es3x8pwa4zAynHFyVladtU1Fm5w=', debit: 'wA7AA0lw8ZG1nEke.dnQ4NJfc52Osnqnm3k/Fw8X9q3I=', credit: 'pMPSP8vDY4GRIIa2.jk2CMzxhnSLKbMQ5AJ9B0Ek=' },
+      { account: 'enU5VXum23qW3PL2.xMurWmgDE7suAOebmGtAujY7Xjs=', debit: 'rLch5S8yMVEd9z1L.O8Y4F8jSKYc+CymklGJJOkc=', credit: '7vODo4VnCvo4TbPo.05JL19qipTYmukWZGjEPEhbbxV0=' }
     ],
     points: 4
   },
   {
     id: 'EX1.3',
-    context: CONTEXT_EX1,
-    partie: "Exercice 1 — Ajustement Option 1 (31/12/N)",
-    text: "<strong>Option 1 :</strong> L'imp\u00f4t estim\u00e9 en fin d'ann\u00e9e s'\u00e9l\u00e8ve \u00e0 <strong>20 000,00 \u20ac</strong>. S\u00e9lectionnez le journal appropri\u00e9 et enregistrez l'\u00e9criture d'ajustement de fin d'ann\u00e9e.",
+    contextRef: 'EX1',
+    partie: 'zNvXwwpzcTf0/pzk.Y6PTBvB/udyAijeepjUJsg76isbtlLCkUjAdW93bme8bUzFAj9Lv81gjYy0t6iWRxSix5xsHKQvwuxLm',
+    text: 'zC0igLUjrHxfMbUL.L2TV/kmVvA2iTm1Fa0VwbnldSbKztnz6+j6X0qFOwzRw+Tguk00XZ6MkgmoclIQoszbBvH3TYHcYcgCafdT3LwLMEFrl0ZSeeT3bNGikoeTPPKsuETeZ9lhQZBu/07qATnniADUc8gMq5lNfNe5es9Co6q3bSEl2ybhiv/UJFVCZE5wIpn63dWlTqGnbIsAwS9i9a5M0D1j68rnJ/eDLM7HzMvnolTgeVygjRkPOJvr4JUCBOT1YK6VZgN3Av6l7G2xQrhceWGjiwyvauTvUKSAVH6Oklg==',
     type: 'entry',
-    journal: 'JOD',
+    journal: 'j3k4pTcMFDp3HU1s.XjHdtfLourwErV8GdZ6uJjhs8w==',
     expectedLines: [
-      { account: '6702', debit: 1070, credit: 0 },
-      { account: '4500', debit: 0, credit: 1070 }
+      { account: 'zX8tW4aWlXJilczx.Zt48on8p0GRAhHLyhY4YIeaQWYI=', debit: 'NZC98W6MN9Sn0Psh.qtFjAsdHm5ZdlL0y149kVt/+Xgw=', credit: '10N6UN8g7buXnGeD.wgNInUC4Pj+z1yrxSRKw1wA=' },
+      { account: 'qiMdcWvp87f7PW47.3+E0MilGNcULlaTZlvUCXA4A6Gg=', debit: '3DpXbfGNqs2hD4yP.sPIPthHfA5fHuCa51aqQmiQ=', credit: 'BYmG1ZtG4DhU8uLY.vamvhemkLSSeYpmxeWbkHPk9opQ=' }
     ],
     points: 4
   },
   {
     id: 'EX1.4',
-    context: CONTEXT_EX1,
-    partie: "Exercice 1 — Ajustement Option 2 (31/12/N)",
-    text: "<strong>Option 2 :</strong> L'imp\u00f4t estim\u00e9 en fin d'ann\u00e9e s'\u00e9l\u00e8ve \u00e0 <strong>15 000,00 \u20ac</strong>. S\u00e9lectionnez le journal appropri\u00e9 et enregistrez l'\u00e9criture d'ajustement de fin d'ann\u00e9e.",
+    contextRef: 'EX1',
+    partie: '3t7mTq7y/n2DQNdM.FoJt5ZoRqZuTsiaUNLdJZX79napsEgQATxYxBDdaWhzKB2S94pG3wxI5oyak/wzPghsbiGmOV4HqW+qe',
+    text: 'EMt+OnmipI+3kjUA.TVMyhQlcEp5vxucCKpwn1FFZQMRW211RnCe9ZaUbCU6wDKKw+HLcOIOSwZQE2iHP2WONgl100uGau/ZdPTHTC6xKWnwsTfhf3htsSP+9MuUytrLds+Tn+4j6bb9BQI2WL2wlc3siT3bjf3GStsAag+eaq7HAETIYMsn1gfZUlanVwbYipFFvTsQhkUBfAVAuqfFt1vsC6ODJOjQkLuLNAu/Wpw+ExSY36cu76iJ9WtqhPZfgyvK1d+w70QnGGnok91P1mbaHVpqSl1jk7f7oMQ76FXofAg==',
     type: 'entry',
-    journal: 'JOD',
+    journal: 'dPmDD6epQPGmnbt5.vy4nIG7vUyuYei+JJShrYyJLBQ==',
     expectedLines: [
-      { account: '4120', debit: 3930, credit: 0 },
-      { account: '6701', debit: 0, credit: 3930 }
+      { account: 'p5i3cD0LtF/5zjk7.WiB0y9kay4/5+Un4R8o4S2r7WZo=', debit: 'KWhlqJ8I5dxALSiJ.lOQBS3FuwdppEzHhwF89oT5ZpvA=', credit: 'zta9mdE7vbiTEQVs.0ulrkY1W34NLEBg0QI7mUQQ=' },
+      { account: 'q8VCR9AP64szZCsT.ay4aqqXCm18nVUzCQTkJalFwPEk=', debit: 'BhWqS18AOOl6WNKk.G2m/rQba54yf6FaCJxBWTeE=', credit: '69C68ADKOJ0mR/y/.11+gNG6uTz68x/skxoJF0fWZ0oQ=' }
     ],
     points: 5
   },
   {
     id: 'EX2.1',
-    context: CONTEXT_EX2,
-    partie: "Exercice 2 — Majoration d'imp\u00f4t",
-    text: "Calculez le montant de la <strong>majoration d'imp\u00f4t</strong> due.",
+    contextRef: 'EX2',
+    partie: 'mQgX89+yQw8Pcyj0.FlCGubqHpCK4WWU8IZHCNsA5tAIyYRADTVnzyZBlLMMq54+7GaNtvxAdsP1RLPm91rM=',
+    text: '1HhDYEErzniQsTWy.YEViygdiuq9S7ZeT4EzDaBdhkImDbLn3518Wn2hadCUr1XB4br3ycpVi3oZakfRYBh4Vs7GvRNX7R0RClOWvSeiwlBp0g/IgR5YoyENRZkzprDo=',
     type: 'numeric',
-    answer: 2261.72,
-    tolerance: 0.10,
-    unit: '\u20ac',
+    answer: 'CIPcf/oh6eZ6KDw6.ysm14lYW0DBppJxnKcKBNuxymPLTJUg=',
+    tolerance: 0.1,
+    unit: '€',
     points: 3
   },
   {
     id: 'EX2.2',
-    context: CONTEXT_EX2,
-    partie: "Exercice 2 — Total des r\u00e9ductions",
-    text: "Calculez le <strong>total des r\u00e9ductions de majoration</strong> obtenues gr\u00e2ce aux 4 versements anticip\u00e9s.",
+    contextRef: 'EX2',
+    partie: '9M6PrEjAs3AHTsct.hZ4RiJkMq0WbElRg5pIGVC3j6Suj6iHkldnOYnGEPE1tyBvWGiLDCDDMT4TGhN4gJU3XKw==',
+    text: 'aznNNCscFCyG3joO.eU4tozMB9JQC3MLnqrfw9Icqq+ZjULxWDg9aniM6/TPekMAtJeDFULbbzu2nnlCmRGNd0JxViRXHx3KAmcGn5hTStzVcWeuYkKjrSP9GQ0FQyBAj3K+I5R7640OhCC1Bm5M1jIhKsQYG/vOwPzy1YvMFfScf9uqpKLZzZmk=',
     type: 'numeric',
-    answer: 1725.75,
-    tolerance: 0.10,
-    unit: '\u20ac',
+    answer: 'Fej+Fs/e7TE5r456.b3tD5Vgtfh2h5XiVieWHo3oulbRqGGY=',
+    tolerance: 0.1,
+    unit: '€',
     points: 3
   },
   {
     id: 'EX2.3',
-    context: CONTEXT_EX2,
-    partie: "Exercice 2 — Suppl\u00e9ment d'imp\u00f4t",
-    text: "Calculez le montant du <strong>suppl\u00e9ment d'imp\u00f4t</strong> d\u00fb \u00e0 l'insuffisance des versements anticip\u00e9s.",
+    contextRef: 'EX2',
+    partie: '/IxRX81ynJlnfWvm.mR/JCpRrStvkTP/P1KT8s9pwXZmVF2AlXEZzQ8bvQxMZd5cycnQKj2CleXj/V9tOvXgG',
+    text: 'RhrNVtIuxaZcfem+.37mEvPlq9+iZkEq1MoBGrzJ2jbFyzRFbMMfBiNIv3LCyJGExLmQj4QWEeQ1F9FvKb6/DcQpHAEXdOMq8TQBLET53DMWZ3QlBaioEe4znuhUg+WKPhIWyMJ9OyC7/tVyTv49Yc2AvkJsoH0eO0NE8SrZlFVZ5BN70qpZYst0=',
     type: 'numeric',
-    answer: 535.97,
-    tolerance: 0.10,
-    unit: '\u20ac',
+    answer: 'cNYsOFc+oAPnNhbd.6zu+M3ilExCtX2PucQS+JHVH6SAXGA==',
+    tolerance: 0.1,
+    unit: '€',
     points: 3
   },
   {
     id: 'EX2.4',
-    context: CONTEXT_EX2,
-    partie: "Exercice 2 — Imp\u00f4t total \u00e0 payer",
-    text: "Quel est le <strong>montant total d'imp\u00f4t \u00e0 payer</strong> par l'entreprise ?",
+    contextRef: 'EX2',
+    partie: 'VxhX9FHa7VJKo/JV.MHMO/aAoMoPhG9AAnRbNGJeuk8v4todnKe7nnyY682AlogcmHqMtoIqfJKhUiULsZuYozA==',
+    text: 'TM+Lerbt9mWwZyZZ.3i8pwykvlAvkN7Whc+Zd4sSJTLj25b/BcTZPkrUzAaRtfe2FbFXWjFWLd8hqdMbzp/KuI6dbGKOe7mXPb7PxDwBR7ODvESjmW5/mzEeH34/E8AxNddb9RIiLq0TOy8U=',
     type: 'numeric',
-    answer: 33385.97,
-    tolerance: 0.10,
-    unit: '\u20ac',
+    answer: 'cvPpyI8aoYWiT/Qc.rYp+URqo66R/qv1CaRQLDg0jt4Lx9Gli',
+    tolerance: 0.1,
+    unit: '€',
     points: 3
   },
   {
     id: 'EX2.5',
-    context: CONTEXT_EX2,
-    partie: "Exercice 2 — Solde d'imp\u00f4t restant \u00e0 payer",
-    text: "Quel est le <strong>solde d'imp\u00f4t restant \u00e0 payer</strong>, en tenant compte des versements anticip\u00e9s d\u00e9j\u00e0 effectu\u00e9s ?",
+    contextRef: 'EX2',
+    partie: 'BR+fkYBvDto9qnEV.WfX8TPX42rWIQMPgx1TLR6uFecqNMpY4hAjNVW7BykMfYFfXw6SRWswzlI9OxKRpgxHPo+Ncw0qYLbXuE/U=',
+    text: 'hC0SBNrTV8PMDjdB.pfunEgbRT2r9jHQ6ZpKp8rRcLcllL1XuHOEz8wyAsA68HKjqrmORCrVJmYkMpzo7fHhzbVqAGEaCSx5LjGa65yLfc6QEYDY+aVYjlytwydntI3HaA44g07HSv5/zq/7FvTF96C7aHnspAnqsb6rK9MESM4OgUTylQ3RbzHNF41dTgACnXJIFIl1JoO8=',
     type: 'numeric',
-    answer: 6985.97,
-    tolerance: 0.10,
-    unit: '\u20ac',
+    answer: 'A9E+s8hgt/zLEEyE.GmALG1MM2uB4ZEg6/hR851aGeZl16Co=',
+    tolerance: 0.1,
+    unit: '€',
     points: 3
   }
 ];
@@ -1109,6 +1112,80 @@ function postData(payload) {
   });
 }
 
+
+// ============================================================
+// DÉCHIFFREMENT AES-GCM (Web Crypto API)
+// ============================================================
+async function importKey(hexKey) {
+  const keyBytes = new Uint8Array(
+    hexKey.match(/.{1,2}/g).map(b => parseInt(b, 16))
+  );
+  return await window.crypto.subtle.importKey(
+    'raw', keyBytes, 'AES-GCM', false, ['decrypt']
+  );
+}
+
+async function decryptText(encrypted, cryptoKey) {
+  if (encrypted === null || encrypted === undefined) return encrypted;
+  const [ivB64, cipherB64] = encrypted.split('.');
+  const iv = Uint8Array.from(atob(ivB64), c => c.charCodeAt(0));
+  const cipher = Uint8Array.from(atob(cipherB64), c => c.charCodeAt(0));
+  const decrypted = await window.crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv: iv },
+    cryptoKey,
+    cipher
+  );
+  return new TextDecoder().decode(decrypted);
+}
+
+async function decryptAllData(cryptoKey) {
+  // Quiz
+  for (let q of QUIZ) {
+    q.text = await decryptText(q.text, cryptoKey);
+    q.options = await Promise.all(q.options.map(o => decryptText(o, cryptoKey)));
+  }
+  // Contextes
+  CONTEXT_EX1 = await decryptText(CONTEXT_EX1_ENC, cryptoKey);
+  CONTEXT_EX2 = await decryptText(CONTEXT_EX2_ENC, cryptoKey);
+  // Exercices
+  for (let ex of EXERCISES) {
+    ex.text = await decryptText(ex.text, cryptoKey);
+    if (ex.partie) ex.partie = await decryptText(ex.partie, cryptoKey);
+    // Assigner le bon contexte à partir de contextRef
+    if (ex.contextRef === 'EX1') ex.context = CONTEXT_EX1;
+    else if (ex.contextRef === 'EX2') ex.context = CONTEXT_EX2;
+    if (ex.options) {
+      ex.options = await Promise.all(ex.options.map(o => decryptText(o, cryptoKey)));
+    }
+    if (ex.journal) ex.journal = await decryptText(ex.journal, cryptoKey);
+    if (ex.answer !== undefined && ex.answer !== null) {
+      ex.answer = parseFloat(await decryptText(ex.answer, cryptoKey));
+    }
+    if (ex.answers) {
+      ex.answers = await Promise.all(
+        ex.answers.map(async a => parseFloat(await decryptText(a, cryptoKey)))
+      );
+    }
+    if (ex.expectedLines) {
+      for (let line of ex.expectedLines) {
+        if (typeof line.account === 'string') {
+          line.account = await decryptText(line.account, cryptoKey);
+        } else if (Array.isArray(line.account)) {
+          line.account = await Promise.all(
+            line.account.map(a => decryptText(a, cryptoKey))
+          );
+        }
+        if (line.debit !== undefined && line.debit !== null) {
+          line.debit = parseFloat(await decryptText(String(line.debit), cryptoKey));
+        }
+        if (line.credit !== undefined && line.credit !== null) {
+          line.credit = parseFloat(await decryptText(String(line.credit), cryptoKey));
+        }
+      }
+    }
+  }
+}
+
 // ============================================================
 // TIMER
 // ============================================================
@@ -1144,10 +1221,37 @@ async function handleLogin() {
   btn.innerHTML = '<span class="spinner"></span> Vérification…';
 
   try {
-    // Step 1: check_email
+    // Step 1: check_email — récupère aussi la clé de déchiffrement
     const emailResult = await jsonp({ action: 'check_email', email: email });
+
+    // Verrou fermé
+    if (emailResult.error === 'locked') {
+      showScreen('screenLocked');
+      return;
+    }
+
     if (!emailResult.found) {
       errorEl.textContent = "Cette adresse email n'est pas enregistrée. Contacte ton professeur.";
+      btn.disabled = false;
+      btn.textContent = "Commencer l'évaluation";
+      return;
+    }
+
+    if (!emailResult.cle) {
+      errorEl.textContent = "Erreur technique : clé absente. Préviens ton professeur.";
+      btn.disabled = false;
+      btn.textContent = "Commencer l'évaluation";
+      return;
+    }
+
+    // Step 1b : importer la clé et déchiffrer toutes les données
+    try {
+      const cryptoKey = await importKey(emailResult.cle);
+      await decryptAllData(cryptoKey);
+      applyShuffles();
+    } catch (cryptoErr) {
+      console.error(cryptoErr);
+      errorEl.textContent = "Erreur technique au chargement. Préviens ton professeur.";
       btn.disabled = false;
       btn.textContent = "Commencer l'évaluation";
       return;
@@ -1158,13 +1262,15 @@ async function handleLogin() {
 
     // Step 2: check_access
     const accessResult = await jsonp({ action: 'check_access', email: email, app: CONFIG.APP_NAME });
+    if (accessResult.error === 'locked') { showScreen('screenLocked'); return; }
     if (accessResult.status === 'completed') {
       showScreen('screenDone');
       return;
     }
 
     // Step 3: start_eval
-    await jsonp({ action: 'start_eval', email: email, app: CONFIG.APP_NAME });
+    const startResult = await jsonp({ action: 'start_eval', email: email, app: CONFIG.APP_NAME });
+    if (startResult && startResult.error === 'locked') { showScreen('screenLocked'); return; }
 
     // Step 4: register app
     postData({
@@ -1214,19 +1320,21 @@ function shuffleOptions(arr, correctIndex) {
   return { options: shuffled, correct: shuffled.indexOf(correctText) };
 }
 
-QUIZ.forEach(q => {
-  const shuffled = shuffleOptions(q.options, q.correct);
-  q.options = shuffled.options;
-  q.correct = shuffled.correct;
-});
-
-EXERCISES.forEach(ex => {
-  if (ex.type === 'qcm' && Array.isArray(ex.options) && ex.options.length > 1) {
-    const shuffled = shuffleOptions(ex.options, ex.correct);
-    ex.options = shuffled.options;
-    ex.correct = shuffled.correct;
-  }
-});
+// Randomisation appelée APRÈS le déchiffrement (voir applyShuffles dans handleLogin)
+function applyShuffles() {
+  QUIZ.forEach(q => {
+    const shuffled = shuffleOptions(q.options, q.correct);
+    q.options = shuffled.options;
+    q.correct = shuffled.correct;
+  });
+  EXERCISES.forEach(ex => {
+    if (ex.type === 'qcm' && Array.isArray(ex.options) && ex.options.length > 1) {
+      const shuffled = shuffleOptions(ex.options, ex.correct);
+      ex.options = shuffled.options;
+      ex.correct = shuffled.correct;
+    }
+  });
+}
 
 // ============================================================
 // QUIZ RENDERING
